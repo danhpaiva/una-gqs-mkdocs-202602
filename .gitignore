@@ -1,0 +1,26 @@
+# MkDocs — site gerado e cache de plugins
+/site/
+.cache/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
+
+# Ambiente virtual
+venv/
+.venv/
+env/
+.env
+*.env
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editores
+.idea/
+.vscode/
+*.swp

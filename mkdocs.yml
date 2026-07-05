@@ -1,0 +1,84 @@
+site_name: "Sua Disciplina - UNA"
+# Troque para a URL do seu Pages: https://SEU_USUARIO.github.io/SEU_REPOSITORIO/
+site_url: https://SEU_USUARIO.github.io/SEU_REPOSITORIO/
+site_author: Seu Nome
+
+# Link para o repositório e botão "editar esta página" (troque pelos seus dados)
+repo_url: https://github.com/SEU_USUARIO/SEU_REPOSITORIO
+repo_name: SEU_USUARIO/SEU_REPOSITORIO
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: pt-BR
+  logo: assets/animaeducacao.jpg
+  favicon: assets/animaeducacao.jpg
+  font:
+    text: Inter # Fonte de texto do site
+    code: JetBrains Mono # Fonte monoespaçada dos blocos de código
+  palette:
+    # 3 estados: automático (segue o sistema) -> claro -> escuro
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Mudar para modo claro
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/brightness-7
+        name: Mudar para modo escuro
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/brightness-4
+        name: Mudar para modo automático
+  features:
+    - navigation.tabs # Seções de topo viram abas no cabeçalho
+    - navigation.indexes # Permite página-índice em cada seção
+    - navigation.sections
+    - navigation.expand # Deixa o menu lateral aberto por padrão
+    - navigation.top # Botão "Voltar ao topo" automático
+    - toc.follow # O sumário lateral acompanha a rolagem
+    - navigation.tracking # Atualiza a URL conforme o aluno rola a página
+    - content.code.copy # Botão de copiar código em um clique
+    - content.action.edit # Botão "editar esta página" (usa repo_url + edit_uri)
+    - content.tabs.link # Sincroniza abas de mesmo rótulo na página inteira
+    - navigation.instant # Navegação SPA: troca de página sem recarregar tudo
+    - navigation.instant.progress # Barra de progresso ao carregar páginas
+    - search.suggest # Sugere a continuação da palavra na busca
+    - search.highlight # Realça os termos buscados na página
+
+nav:
+  - Home: index.md
+  - Guia do Professor: setup.md
+  - 🧰 Ferramentas: ferramentas.md
+  - 📖 Aulas:
+      - Introdução: aulas/01-introducao.md
+      - CI/CD com GitHub Actions: aulas/02-cicd.md
+  - 📝 Atividades:
+      - Projeto 01: trabalhos/projeto-01.md
+
+# Rascunhos ficam fora do site publicado (continuam versionados no repo)
+exclude_docs: |
+  rascunhos/
+
+plugins:
+  - search:
+      lang: pt
+  - git-revision-date-localized
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+# Para habilitar estatísticas, crie um ID no Google Analytics e preencha abaixo:
+# extra:
+#   analytics:
+#     provider: google
+#     property: !ENV [GA_ID, "G-XXXXXXXXXX"] # Busca nas variáveis de ambiente ou usa o padrão

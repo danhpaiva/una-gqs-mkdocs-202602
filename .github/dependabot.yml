@@ -1,0 +1,17 @@
+version: 2
+updates:
+  # Mantém as dependências do MkDocs (requirements.txt) atualizadas
+  - package-ecosystem: pip
+    directory: "/"
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: build
+
+  # Mantém as versões das actions no workflow atualizadas
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
