@@ -1,11 +1,12 @@
-site_name: "Sua Disciplina - UNA"
-# Troque para a URL do seu Pages: https://SEU_USUARIO.github.io/SEU_REPOSITORIO/
-site_url: https://SEU_USUARIO.github.io/SEU_REPOSITORIO/
-site_author: Seu Nome
+site_name: "Garantia e Qualidade de Software - UNA"
+site_url: https://danhpaiva.github.io/una-gqs-mkdocs-202602/
+site_author: Daniel Paiva
+site_description: >-
+  Material de apoio da disciplina Garantia e Qualidade de Software (GQS) — 2026/2.
 
-# Link para o repositório e botão "editar esta página" (troque pelos seus dados)
-repo_url: https://github.com/SEU_USUARIO/SEU_REPOSITORIO
-repo_name: SEU_USUARIO/SEU_REPOSITORIO
+# Link para o repositório e botão "editar esta página"
+repo_url: https://github.com/danhpaiva/una-gqs-mkdocs-202602
+repo_name: danhpaiva/una-gqs-mkdocs-202602
 edit_uri: edit/main/docs/
 
 theme:
@@ -57,10 +58,32 @@ nav:
   - Guia do Professor: setup.md
   - 🧰 Ferramentas: ferramentas.md
   - 📖 Aulas:
-      - Introdução: aulas/01-introducao.md
-      - CI/CD com GitHub Actions: aulas/02-cicd.md
-  - 📝 Atividades:
-      - Projeto 01: trabalhos/projeto-01.md
+      - "01. Qualidade e Garantia da Qualidade (QA)": aulas/01-aula.md
+      - "02. DevOps e Integração Contínua (CI/CD)": aulas/02-aula.md
+      - "03. Técnicas de Revisão e Inspeção": aulas/03-aula.md
+      - "04. Fundamentos e Estratégias de Teste": aulas/04-aula.md
+      - "05. Teste de Caixa Branca (Estrutural)": aulas/05-aula.md
+      - "06. Teste de Caixa Preta (Funcional)": aulas/06-aula.md
+      - "07. TDD e Testes Automatizados": aulas/07-aula.md
+      - "08. Níveis de Teste: Unitário ao Sistema": aulas/08-aula.md
+      - "09. Plano e Roteiro de Testes": aulas/09-aula.md
+      - "10. Métricas, Indicadores e Pontos de Função": aulas/10-aula.md
+      - "11. Modelos de Qualidade: ISO, CMMI e MPS.BR": aulas/11-aula.md
+      - "12. Configuração, Manutenção e Reengenharia": aulas/12-aula.md
+  - 📝 Listas:
+      - "Lista 01 — Qualidade e QA": listas/01-lista.md
+      - "Lista 02 — CI/CD e DevOps": listas/02-lista.md
+      - "Lista 03 — Revisão e Inspeção": listas/03-lista.md
+      - "Lista 04 — Estratégias de Teste": listas/04-lista.md
+      - "Lista 05 — Caixa Branca": listas/05-lista.md
+      - "Lista 06 — Caixa Preta": listas/06-lista.md
+      - "Lista 07 — TDD e Automação": listas/07-lista.md
+      - "Lista 08 — Níveis de Teste": listas/08-lista.md
+      - "Lista 09 — Plano de Testes": listas/09-lista.md
+      - "Lista 10 — Métricas e Pontos de Função": listas/10-lista.md
+      - "Lista 11 — Modelos de Qualidade": listas/11-lista.md
+      - "Lista 12 — Configuração e Manutenção": listas/12-lista.md
+  # - 📦 Trabalho Final: trabalhos/projeto-final.md  # (a definir)
 
 # Rascunhos ficam fora do site publicado (continuam versionados no repo)
 exclude_docs: |
@@ -73,12 +96,25 @@ plugins:
 
 markdown_extensions:
   - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - footnotes
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
-# Para habilitar estatísticas, crie um ID no Google Analytics e preencha abaixo:
-# extra:
-#   analytics:
-#     provider: google
-#     property: !ENV [GA_ID, "G-XXXXXXXXXX"] # Busca nas variáveis de ambiente ou usa o padrão
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
