@@ -59,6 +59,21 @@ quebram".
     - **Stub**: substitui um módulo **chamado** (de baixo). Usado no top-down.
     - **Driver**: simula um módulo **chamador** (de cima). Usado no bottom-up.
 
+!!! tip "Como não confundir stub e driver"
+    Pense na **direção da chamada**. Se falta a peça **de cima** (quem *chama*),
+    você cria um **driver** para disparar a peça de baixo. Se falta a peça **de
+    baixo** (quem *é chamado*), você cria um **stub** para responder no lugar dela.
+
+    Portanto, na integração **bottom-up** (de baixo para cima), você começa pelos
+    módulos-base — que ainda **não têm quem os chame** — então precisa de
+    **drivers** para simular esse chamador e exercitar o módulo-base.
+
+| Estratégia | Começa por | Precisa de | Vantagem | Desvantagem |
+| :--- | :--- | :--- | :--- | :--- |
+| Big-bang | tudo junto | — | simples de montar | difícil localizar falha |
+| Top-down | módulos de cima | **stubs** | valida cedo o fluxo principal | módulos de baixo testados tarde |
+| Bottom-up | módulos de baixo | **drivers** | base bem testada cedo | visão do todo aparece tarde |
+
 ## Teste de sistema
 
 O sistema **completo** é testado em um ambiente próximo do real, contra os
@@ -94,6 +109,27 @@ flowchart TB
     A pirâmide **invertida** (muitos testes de UI, poucos unitários) é lenta,
     frágil e cara. É um antipadrão comum — evite.
 
+### Diagnosticando uma pirâmide desequilibrada
+
+Um time com **5 testes unitários e 60 de interface (E2E)** está com um **cone de
+sorvete**. Os sintomas: a suíte demora **minutos ou horas**, quebra por qualquer
+mudança de layout (testes **frágeis**), e quando falha é difícil saber **onde** está
+o defeito, porque um teste E2E atravessa dezenas de classes.
+
+Como reequilibrar, sem apagar valor:
+
+1. **Não delete os E2E de imediato** — eles cobrem fluxos reais. Mantenha um punhado
+   dos **caminhos críticos** (ex.: login → compra → pagamento).
+2. **Empurre a lógica para baixo:** para cada regra de negócio validada só via UI,
+   escreva um **teste unitário** direto na classe que a implementa.
+3. **Adicione testes de integração** para as junções (banco, serviços) que hoje só
+   os E2E exercitam.
+4. **Converta E2E redundantes** em testes de nível mais baixo e remova os que
+   viraram duplicata.
+
+O alvo é inverter a proporção: **muitos** unitários (rápidos, baratos, precisos),
+**alguns** de integração e **poucos** E2E.
+
 ## Exercícios
 
 ??? abstract "Exercício 1 — Classifique o nível"
@@ -110,6 +146,23 @@ flowchart TB
 ??? abstract "Exercício 3 — Pirâmide"
     Um time tem 5 testes unitários e 60 testes de interface (E2E). Que problema
     isso indica? Como você reequilibraria a pirâmide?
+
+## Referências
+
+**Leitura base**
+
+- SOMMERVILLE, Ian. *Engenharia de Software*. 10. ed. Pearson, 2019 — cap. 8
+  (níveis e estratégias de teste).
+- PRESSMAN, R. S.; MAXIM, B. R. *Engenharia de Software*. 8. ed. AMGH, 2016 —
+  cap. sobre estratégias de teste e integração.
+
+**Para aprofundar**
+
+- COHN, Mike. *Succeeding with Agile*, 2009 — origem da **pirâmide de testes**.
+- FOWLER, Martin. *The Practical Test Pyramid*:
+  <https://martinfowler.com/articles/practical-test-pyramid.html>.
+- FOWLER, Martin. *Test Pyramid*:
+  <https://martinfowler.com/bliki/TestPyramid.html>.
 
 !!! tip "Próxima Parada 🚀"
     Aplique os níveis na [**Lista 08 — Níveis de Teste**](../listas/08-lista.md).

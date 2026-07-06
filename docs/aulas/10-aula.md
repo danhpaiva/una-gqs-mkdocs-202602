@@ -29,6 +29,17 @@ flowchart LR
     B --> C[Indicador que orienta decisão]
 ```
 
+!!! tip "Como distinguir na prática"
+    - **Medida:** um número cru, sem comparação. *"45.000 linhas de código."*
+    - **Métrica:** uma **razão** ou relação com significado. *"1,2 defeito por ponto
+      de função."*
+    - **Indicador:** a métrica **interpretada** para **decidir** algo, normalmente
+      olhando **tendência** ou **meta**. *"A densidade de defeitos cai há 4 sprints,
+      podemos reduzir o retrabalho."*
+
+    Pergunta-chave: *isso sozinho me faz **agir**?* Se sim, é indicador. Se é só uma
+    relação, é métrica. Se é um valor solto, é medida.
+
 ## Produto, processo e projeto
 
 | Categoria | Mede... | Exemplos |
@@ -36,6 +47,14 @@ flowchart LR
 | **Produto** | qualidade/característica do software | densidade de defeitos, complexidade ciclomática, cobertura |
 | **Processo** | eficiência do jeito de trabalhar | eficácia de remoção de defeitos, tempo de ciclo |
 | **Projeto** | andamento do projeto | esforço (horas), prazo, custo, produtividade |
+
+!!! tip "Pergunta que separa as três"
+    - Fala do **software em si** (algo que você mede lendo/executando o código)? →
+      **Produto**. Ex.: cobertura de testes, complexidade.
+    - Fala de **como trabalhamos** (a eficiência do jeito de produzir)? →
+      **Processo**. Ex.: % de defeitos removidos em revisão, *lead time*.
+    - Fala do **andamento deste projeto** (recursos, prazo)? → **Projeto**. Ex.:
+      horas gastas no sprint, custo, atraso.
 
 !!! example "Densidade de defeitos"
     $$
@@ -100,6 +119,30 @@ onde $FA$ é o **fator de ajuste** derivado das características gerais do siste
     \text{Esforço} = \frac{200 \text{ PF}}{10 \text{ PF/pessoa-mês}} = 20 \text{ pessoas-mês}
     $$
 
+### Do esforço ao prazo (com a equipe)
+
+**Esforço** (pessoas-mês) e **prazo** (meses) não são a mesma coisa. Para estimar o
+prazo, divida o esforço pelo tamanho da equipe:
+$$
+\text{Prazo} \approx \frac{\text{Esforço (pessoas-mês)}}{\text{nº de pessoas}}
+$$
+
+!!! example "Esforço → prazo"
+    Um projeto de **350 PF** com produtividade de **14 PF/pessoa-mês**:
+    $$
+    \text{Esforço} = \frac{350}{14} = 25 \text{ pessoas-mês}
+    $$
+    Com uma **equipe de 5 pessoas**:
+    $$
+    \text{Prazo} \approx \frac{25}{5} = 5 \text{ meses}
+    $$
+
+!!! warning "Cuidado: pessoas-mês não é linear (Lei de Brooks)"
+    A divisão acima é uma **aproximação**. Dobrar a equipe **não** corta o prazo pela
+    metade: mais gente traz mais comunicação, integração e treinamento. *"Acrescentar
+    pessoas a um projeto atrasado o atrasa ainda mais"* (Fred Brooks). Use a conta
+    como ponto de partida, não como promessa.
+
 ## Exercícios
 
 ??? abstract "Exercício 1 — Medida, métrica ou indicador?"
@@ -116,6 +159,26 @@ onde $FA$ é o **fator de ajuste** derivado das características gerais do siste
 ??? abstract "Exercício 3 — Estimativa por PF"
     Um projeto tem 350 PF e a produtividade do time é 14 PF/pessoa-mês. Estime o
     esforço. Se a equipe tem 5 pessoas, quantos meses (aproximadamente)?
+
+## Referências
+
+**Leitura base**
+
+- PRESSMAN, R. S.; MAXIM, B. R. *Engenharia de Software*. 8. ed. AMGH, 2016 —
+  cap. sobre métricas de processo e produto.
+- FENTON, N.; BIEMAN, J. *Software Metrics: A Rigorous and Practical Approach*.
+  3. ed. CRC Press, 2014.
+
+**Pontos de função**
+
+- IFPUG — *International Function Point Users Group*: <https://www.ifpug.org/>.
+- ISO/IEC 20926 — método de contagem de pontos de função (IFPUG).
+
+**Para aprofundar**
+
+- BROOKS, F. P. *O Mítico Homem-Mês* (*The Mythical Man-Month*), 1975 — sobre
+  esforço, prazo e a não linearidade de equipes.
+- BOEHM, B. *Software Engineering Economics*, 1981 — modelo **COCOMO**.
 
 !!! tip "Próxima Parada 🚀"
     Calcule na [**Lista 10 — Métricas e Pontos de Função**](../listas/10-lista.md).

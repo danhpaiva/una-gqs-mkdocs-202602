@@ -35,6 +35,22 @@ Define **seis características** de qualidade, cada uma com subcaracterísticas:
     **oito** características, acrescentando **Segurança** e **Compatibilidade** como
     características próprias. Em prova, saiba que a 25010 é a sucessora.
 
+!!! example "As características aplicadas a um app de banco"
+    Cada característica vira um **requisito concreto**:
+
+    | Característica | Requisito de exemplo |
+    | :--- | :--- |
+    | **Funcionalidade** | transferência credita o valor correto na conta destino |
+    | **Confiabilidade** | disponível 99,9% do mês; não perde transações em queda |
+    | **Usabilidade** | um novo cliente faz um Pix sem ajuda em até 1 minuto |
+    | **Eficiência** | consulta de saldo responde em menos de 1 s |
+    | **Manutenibilidade** | uma correção de cálculo é liberada em 1 dia |
+    | **Portabilidade** | o app roda em Android e iOS |
+    | **Segurança** | exige biometria e criptografa dados sensíveis |
+
+    Note que a mesma tela pode ter requisitos de **várias** características ao mesmo
+    tempo.
+
 ## CMMI — maturidade de processo
 
 **Capability Maturity Model Integration** organiza a maturidade do processo em
@@ -60,6 +76,18 @@ flowchart TB
     Não se pula do nível 1 para o 4. Cada nível institucionaliza práticas que
     sustentam o seguinte.
 
+!!! example "Diagnosticando o nível de maturidade"
+    *Uma empresa entrega no prazo, mas "no grito", dependendo sempre das mesmas duas
+    pessoas.* Isso é a marca do **Nível 1 (Inicial)**: o sucesso existe, mas depende
+    de **heróis**, não de um processo. Se essas duas pessoas saírem, a entrega
+    desaba — o resultado é **imprevisível e não repetível**.
+
+    Para subir ao **Nível 2 (Gerenciado)**, a empresa precisaria **institucionalizar**
+    o que hoje mora na cabeça dessas pessoas: planejar e acompanhar projetos,
+    controlar requisitos e configuração (Aula 12), medir o básico e documentar o
+    processo — de modo que **qualquer** equipe consiga repetir o resultado, sem
+    depender de indivíduos específicos.
+
 ## MPS.BR — o modelo brasileiro
 
 O **MPS.BR** (Melhoria de Processo do Software Brasileiro) nasceu para tornar a
@@ -79,6 +107,13 @@ compatível com CMMI e ISO 12207/15504. Sua escala tem **sete níveis** (de **G*
     Os níveis do MPS.BR vão de **G (Parcialmente Gerenciado)**, o primeiro passo,
     subindo por F, E, D, C, B até **A (Em Otimização)**, o mais alto — análogo em
     espírito ao topo do CMMI.
+
+!!! note "Por que sete níveis em vez de cinco?"
+    A escala mais fina do MPS.BR (G→A) foi um projeto **deliberado**: passos
+    menores custam menos e dão **resultados visíveis mais cedo**, o que se encaixa
+    na realidade das **micro, pequenas e médias empresas** brasileiras. Cada nível
+    intermediário é uma "vitória" alcançável, incentivando a evolução gradual em vez
+    de um salto caro como o exigido para certificar CMMI de uma vez.
 
 ## Por que isso importa para você
 
@@ -100,6 +135,23 @@ o tipo de prática que os níveis mais altos **institucionalizam**.
     Uma empresa entrega no prazo, mas "no grito", dependendo sempre das mesmas duas
     pessoas. Em que nível do CMMI ela provavelmente está? O que precisaria para
     subir um nível?
+
+## Referências
+
+**Leitura base**
+
+- SOMMERVILLE, Ian. *Engenharia de Software*. 10. ed. Pearson, 2019 — cap. 24 e 26
+  (qualidade e melhoria de processo).
+- PRESSMAN, R. S.; MAXIM, B. R. *Engenharia de Software*. 8. ed. AMGH, 2016 —
+  cap. sobre qualidade e modelos de processo.
+
+**Normas e modelos**
+
+- ISO/IEC 25010:2011 (SQuaRE) — modelo de qualidade de produto (sucessora da ISO/IEC
+  9126).
+- CMMI — *Capability Maturity Model Integration* (CMMI Institute / ISACA).
+- SOFTEX — **MPS.BR** (Melhoria de Processo do Software Brasileiro):
+  <https://softex.br/mpsbr/>.
 
 !!! tip "Próxima Parada 🚀"
     Explore os modelos na [**Lista 11 — Modelos de Qualidade**](../listas/11-lista.md).

@@ -31,6 +31,18 @@ basta **um representante** por classe.
 
     Em vez de testar 15, 16, 17, 18, 19... testamos **um** de cada classe.
 
+!!! tip "Não esqueça as classes inválidas"
+    O erro mais comum é testar só o que **deveria funcionar**. Para cada entrada,
+    pense em partições válidas **e** inválidas de vários tipos:
+
+    - **Fora da faixa** (menor/maior que o permitido).
+    - **Formato errado** (letra onde se espera número, tamanho errado).
+    - **Ausência** (campo vazio, `null`).
+    - **Tipo/valor especial** (zero, negativo, caractere especial).
+
+    Cada partição inválida costuma ter um **tratamento** diferente — por isso conta
+    como uma classe separada.
+
 ## Análise de valor-limite
 
 Defeitos adoram **fronteiras** (`>` vs `>=`). Por isso testamos os **limites** de
@@ -53,6 +65,29 @@ flowchart LR
     @Test void acimaDoLimite()           { assertFalse(elegivel(26)); }
     ```
 
+!!! note "Duas escolas: 2 valores × 3 valores"
+    - **Análise de 2 valores:** testa o **limite** e seu **vizinho imediato** (para
+      18: os valores 17 e 18). Mais enxuta.
+    - **Análise de 3 valores:** testa o valor **antes**, o **limite** e o **depois**
+      (17, 18, 19). Mais rigorosa, pega defeitos de `>` vs `>=` vs `==`.
+
+    Combine equivalência **e** limite: a equivalência garante que cada classe é
+    coberta; o limite reforça as **fronteiras**, onde os defeitos se concentram.
+
+!!! example "Aplicando a um campo de tamanho fixo (ex.: 8 dígitos)"
+    Quando a regra é sobre **tamanho** (um CEP de 8 dígitos, por exemplo), as
+    partições e limites são sobre a **quantidade de caracteres**:
+
+    | Classe | Exemplo | Válida? |
+    | :--- | :--- | :--- |
+    | 7 dígitos (curto) | `"1234567"` | ❌ |
+    | **8 dígitos** (limite) | `"12345678"` | ✅ |
+    | 9 dígitos (longo) | `"123456789"` | ❌ |
+    | 8 caracteres com letra (formato) | `"1234abcd"` | ❌ |
+    | vazio / `null` | `""` | ❌ |
+
+    Os limites de tamanho a testar são **7, 8 e 9**.
+
 ## Tabela de decisão
 
 Útil quando a saída depende de **combinações** de condições.
@@ -66,6 +101,17 @@ flowchart LR
     | R4 | Sim | Sim | 15% |
 
     Cada **regra** vira (ao menos) um caso de teste.
+
+!!! tip "Montando uma tabela de decisão"
+    1. Liste as **condições** (entradas booleanas). Com $n$ condições há $2^n$
+       combinações.
+    2. Liste as **ações** (saídas).
+    3. Preencha uma coluna (regra) por combinação.
+    4. **Simplifique**: se uma ação não depende de uma condição, marque-a como
+       "indiferente" (—) e junte regras redundantes.
+
+    Para "empréstimo aprovado se renda > R\$ 3.000 **E** score > 700", há 2
+    condições → 4 regras. Só a combinação **V + V** aprova; as outras três negam.
 
 ## Transição de estados
 
@@ -82,6 +128,16 @@ stateDiagram-v2
 
 Testamos **transições válidas** (Rascunho → Publicado) e também **inválidas**
 (tentar arquivar um rascunho deve ser rejeitado).
+
+!!! note "O que cobrir em uma máquina de estados"
+    - **Cada estado** é alcançado ao menos uma vez.
+    - **Cada transição válida** é exercitada (cobertura conhecida como *0-switch*).
+    - **Transições inválidas** são **rejeitadas** — o sistema deve permanecer no
+      estado atual (ou dar erro), nunca "pular" para um estado indevido.
+
+    Exemplo de e-commerce: `Novo → Pago → Enviado → Entregue` são válidas; tentar
+    `Novo → Entregue` (entregar sem pagar) é uma transição **inválida** que deve ser
+    bloqueada.
 
 ## Caixa branca × caixa preta: complementares
 
@@ -110,6 +166,21 @@ Testamos **transições válidas** (Rascunho → Publicado) e também **inválid
 ??? abstract "Exercício 3 — Transição de estados"
     Modele os estados de um pedido de e-commerce (ex.: Novo → Pago → Enviado →
     Entregue) e aponte **uma** transição inválida que deveria ser bloqueada.
+
+## Referências
+
+**Leitura base**
+
+- MYERS, G. J.; SANDLER, C.; BADGETT, T. *The Art of Software Testing*. 3. ed.
+  Wiley, 2011 — particionamento de equivalência e valor-limite.
+- PRESSMAN, R. S.; MAXIM, B. R. *Engenharia de Software*. 8. ed. AMGH, 2016 —
+  cap. sobre teste de caixa preta.
+
+**Normas e definições**
+
+- ISTQB — *Foundation Level Syllabus* (técnicas baseadas em especificação):
+  <https://www.istqb.org/>.
+- BS 7925-2 / ISO/IEC/IEEE 29119 — técnicas de projeto de casos de teste.
 
 !!! tip "Próxima Parada 🚀"
     Pratique na [**Lista 06 — Caixa Preta**](../listas/06-lista.md).

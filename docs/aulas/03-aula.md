@@ -17,6 +17,26 @@ falta de tratamento de erro, decisões de projeto ruins.
     Pode ser aplicada **antes de existir código executável** — em requisitos, no
     projeto, no diagrama. É o exemplo máximo de *shift-left* (Aula 01).
 
+### Verificação estática × dinâmica
+
+Toda técnica de qualidade cai em uma de duas famílias:
+
+- **Estática:** examina o artefato **sem executá-lo**. Inclui revisões, inspeções
+  e a **análise estática automatizada** (ferramentas como *linters*, SonarQube,
+  SpotBugs, que leem o código em busca de padrões suspeitos).
+- **Dinâmica:** **executa** o software e observa o comportamento — é o teste
+  (Aulas 04 a 08).
+
+As duas se complementam. A análise estática automatizada é ótima para achar
+problemas **mecânicos** (variável não usada, possível `null`, complexidade alta);
+a revisão humana é insubstituível para julgar **intenção e design** ("este código
+resolve o problema certo?"). Um processo maduro usa as duas.
+
+!!! example "O que só a revisão pega"
+    Um teste confirma que `calcularFrete()` devolve o valor certo — mas **não** diz
+    que o nome está confuso, que a regra de negócio foi mal interpretada, ou que
+    faltou tratar o caso de CEP inexistente. Isso é trabalho de revisão.
+
 ## Um espectro de formalidade
 
 === "Revisão Informal"
@@ -37,6 +57,17 @@ falta de tratamento de erro, decisões de projeto ruins.
 | Papéis definidos | não | parcial | sim |
 | Registro/métricas | não | pouco | sim |
 | Quem lidera | ninguém | o autor | o moderador |
+
+!!! tip "Como escolher a técnica: uma regra de bolso"
+    Pese **risco** e **custo**. Quanto maior o impacto de um defeito passar, mais
+    formal deve ser a revisão:
+
+    - **Baixo risco / mudança trivial** (ajuste de texto, correção óbvia) →
+      **informal** ou revisão de PR leve. Formalizar seria desperdício.
+    - **Objetivo é disseminar conhecimento** (explicar um design novo ao time) →
+      **walkthrough**, pois o foco é entendimento, não só achar defeitos.
+    - **Alto risco / crítico** (cálculo financeiro, módulo de segurança, algoritmo
+      central) → **inspeção formal**, que maximiza defeitos encontrados por hora.
 
 ## A inspeção de Fagan
 
@@ -60,6 +91,24 @@ flowchart LR
 !!! warning "Regra de ouro da inspeção"
     A reunião **encontra** defeitos, não os **corrige**. Consertar ao vivo trava o
     grupo. O conserto acontece depois, na etapa de retrabalho.
+
+### Por que separar os papéis?
+
+A separação de papéis existe para garantir **objetividade** e **foco**. O caso mais
+importante: o **autor não deve moderar** a própria inspeção. Quando alguém revisa o
+próprio trabalho, tende ao **viés de confirmação** — enxerga o que quis dizer, não o
+que de fato escreveu. Se ainda por cima **conduz** a reunião, dois problemas
+surgem:
+
+- **Conflito de interesse:** é natural (mesmo sem querer) minimizar ou "explicar"
+  os próprios defeitos em vez de registrá-los.
+- **Perda de neutralidade:** o moderador precisa manter o foco e um clima seguro,
+  julgando o **artefato**, não a **pessoa**. O autor emocionalmente ligado ao código
+  não consegue esse distanciamento.
+
+O que se perde é justamente o principal valor da inspeção: um **olhar externo e
+imparcial**. Por isso o autor **participa** (esclarece dúvidas), mas **ouve** — não
+defende nem lidera.
 
 ## Code review moderno (Pull Request)
 
@@ -92,6 +141,32 @@ Um bom checklist de revisão para código Java, por exemplo:
 - [ ] Nenhum "número mágico" solto?
 - [ ] Sem código morto ou comentado?
 
+### Categorias comuns de defeito que uma revisão encontra
+
+Ter categorias em mente ajuda a revisar de forma sistemática, não aleatória:
+
+| Categoria | Exemplos típicos |
+| :--- | :--- |
+| **Robustez / casos-limite** | divisão por zero, `null`, lista vazia, *overflow* |
+| **Entrada não validada** | dados do usuário usados sem checagem |
+| **Legibilidade** | nomes ruins (`a`, `r`, `calc`), método longo demais |
+| **Tratamento de erro** | exceção engolida, erro silencioso, sem *log* |
+| **Regra de negócio** | fronteira errada (`>` vs `>=`), requisito mal interpretado |
+| **Manutenibilidade** | número mágico, duplicação, código morto |
+
+!!! example "Revisando um trecho pequeno"
+    ```java
+    public int calc(int a, int b) {
+        int r = 0;
+        r = a / b;   // e se b == 0? → ArithmeticException
+        return r;
+    }
+    ```
+    Só nessas quatro linhas uma revisão apontaria: (1) **risco de divisão por zero**
+    quando `b == 0`; (2) **nomes obscuros** (`calc`, `a`, `b`, `r` não dizem nada);
+    (3) a variável `r` é **inicializada e imediatamente sobrescrita** (linha inútil).
+    Nenhum desses pontos exige *executar* o código.
+
 ## Exercícios
 
 ??? abstract "Exercício 1 — Escolha a técnica"
@@ -116,6 +191,27 @@ Um bom checklist de revisão para código Java, por exemplo:
         return r;
     }
     ```
+
+## Referências
+
+**Leitura base**
+
+- SOMMERVILLE, Ian. *Engenharia de Software*. 10. ed. Pearson, 2019 — cap. 24
+  (revisões e inspeções).
+- PRESSMAN, R. S.; MAXIM, B. R. *Engenharia de Software*. 8. ed. AMGH, 2016 —
+  cap. sobre revisões de software.
+
+**Artigo clássico**
+
+- FAGAN, M. E. *Design and code inspections to reduce errors in program
+  development*. IBM Systems Journal, 1976 — origem da inspeção formal.
+
+**Para aprofundar**
+
+- Google — *Code Review Developer Guide*:
+  <https://google.github.io/eng-practices/review/>.
+- GitHub Docs — *About pull request reviews*:
+  <https://docs.github.com/pt/pull-requests>.
 
 !!! tip "Próxima Parada 🚀"
     Pratique a revisão na [**Lista 03 — Revisão e Inspeção**](../listas/03-lista.md).

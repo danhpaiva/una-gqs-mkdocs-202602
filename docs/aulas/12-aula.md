@@ -52,6 +52,19 @@ flowchart LR
     - **MINOR**: nova funcionalidade compatível.
     - **PATCH**: correção de defeito.
 
+!!! example "Evoluindo a partir de `1.4.2`"
+    A regra: **incremente** o campo correspondente e **zere** os que estão à direita.
+
+    | Mudança | Próxima versão | Por quê |
+    | :--- | :--- | :--- |
+    | Correção de bug (compatível) | `1.4.3` | sobe o **PATCH** |
+    | Nova funcionalidade (compatível) | `1.5.0` | sobe o **MINOR**, zera o PATCH |
+    | Mudança que **quebra** a API | `2.0.0` | sobe o **MAJOR**, zera MINOR e PATCH |
+
+    "Quebrar a API" significa que quem usava a versão antiga **precisa alterar o
+    código** para continuar funcionando (ex.: remover um parâmetro, mudar o retorno
+    de um método público).
+
 ## Controle de mudanças
 
 Nem toda mudança deve entrar na hora. Um fluxo típico de **requisição de mudança**:
@@ -81,6 +94,18 @@ Manutenção é onde o software passa **a maior parte** de sua vida. Quatro tipo
     Muita gente acha que manutenção é só "corrigir bug". Na prática, **evoluir** e
     **adaptar** o software costuma consumir mais esforço que corrigir defeitos.
 
+!!! tip "Como classificar: pergunte 'qual foi o gatilho?'"
+    - Um **defeito** relatado? → **Corretiva**. Ex.: consertar uma divisão por zero.
+    - Uma mudança **externa** (lei, SO, API, hardware)? → **Adaptativa**. Ex.: nova
+      lei muda o cálculo do imposto; migrar para uma nova versão da API.
+    - Um **pedido de melhoria** ou nova funcionalidade? → **Perfectiva**. Ex.: o
+      cliente pediu um novo relatório; deixar uma tela mais rápida.
+    - Uma ação para **evitar problema futuro**, sem ninguém ter reclamado? →
+      **Preventiva**. Ex.: refatorar um módulo confuso antes que ele dê problema.
+
+    A diferença entre corretiva e preventiva é o **tempo**: corretiva conserta algo
+    que **já falhou**; preventiva age **antes** de falhar.
+
 ## Reengenharia e conceitos relacionados
 
 Quando o custo de manter um sistema legado fica alto demais, entra a
@@ -98,6 +123,17 @@ comportamento externo.
 === "Refatoração"
     Melhorar a **estrutura interna** do código sem mudar seu comportamento,
     protegido por testes (Aula 07). É reengenharia "em pequena escala".
+
+!!! example "As três lado a lado"
+    | Técnica | Direção | Muda o sistema? | Exemplo curto |
+    | :--- | :--- | :--- | :--- |
+    | **Engenharia reversa** | código → modelo | **não** | ler um sistema legado sem docs e desenhar seu diagrama de classes |
+    | **Reengenharia** | sistema velho → sistema novo | **sim** (por dentro) | reescrever um sistema COBOL em Java mantendo as mesmas funções |
+    | **Refatoração** | código → código melhor | **não** (comportamento igual) | extrair um método grande em três menores, com os testes verdes |
+
+    Regra de bolso: **reversa** só **entende**; **refatoração** melhora **por
+    dentro** em pequena escala; **reengenharia** é a reconstrução em grande escala
+    (que muitas vezes começa com engenharia reversa para entender o legado).
 
 ## Melhoria contínua do processo
 
@@ -130,6 +166,27 @@ flowchart LR
 ??? abstract "Exercício 3 — Reengenharia x reversa x refatoração"
     Explique, com um exemplo curto cada, a diferença entre **reengenharia**,
     **engenharia reversa** e **refatoração**.
+
+## Referências
+
+**Leitura base**
+
+- SOMMERVILLE, Ian. *Engenharia de Software*. 10. ed. Pearson, 2019 — cap. 9
+  (evolução de software) e cap. 25 (gestão de configuração).
+- PRESSMAN, R. S.; MAXIM, B. R. *Engenharia de Software*. 8. ed. AMGH, 2016 —
+  cap. sobre manutenção, reengenharia e gestão de configuração.
+
+**Normas e definições**
+
+- ISO/IEC 14764 / IEEE 1219 — tipos de manutenção de software.
+- SemVer — *Semantic Versioning* 2.0.0: <https://semver.org/lang/pt-BR/>.
+
+**Ferramentas e clássicos**
+
+- CHACON, S.; STRAUB, B. *Pro Git* (livro gratuito, pt-BR):
+  <https://git-scm.com/book/pt-br/v2>.
+- FOWLER, Martin. *Refactoring: Improving the Design of Existing Code*. 2. ed.
+  Addison-Wesley, 2018.
 
 !!! tip "Próxima Parada 🚀"
     Encerre o ciclo com a [**Lista 12 — Configuração e Manutenção**](../listas/12-lista.md).

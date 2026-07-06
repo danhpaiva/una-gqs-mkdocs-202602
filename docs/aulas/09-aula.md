@@ -42,6 +42,24 @@ flowchart LR
         - Nenhum defeito **bloqueante** em aberto.
         - Cobertura mínima acordada atingida.
 
+### O que faz um bom critério de saída
+
+Um critério de saída define **quando parar de testar** — e precisa ser
+**objetivo e verificável**, não uma opinião. Compare:
+
+- ❌ *"Quando o tempo acabar."* Não mede qualidade nenhuma — só mede o relógio. Um
+  prazo pode estourar com o sistema cheio de defeitos críticos, ou sobrar tempo com
+  tudo já validado. O calendário não sabe se o software está pronto.
+- ❌ *"Quando estiver bom o suficiente."* Subjetivo; cada pessoa decide diferente.
+- ✅ *"100% dos casos de teste **críticos** executados e aprovados."*
+- ✅ *"Zero defeitos de severidade **alta ou bloqueante** em aberto."*
+- ✅ *"Cobertura de código ≥ 80% nos módulos de pagamento."*
+- ✅ *"Defeitos abertos < 5, todos de severidade baixa e com contorno conhecido."*
+
+!!! tip "Regra"
+    Um bom critério pode ser respondido com **sim ou não** por qualquer pessoa
+    olhando os dados — sem depender de quem está julgando.
+
 ## Caso de teste × Roteiro de teste
 
 === "Caso de teste"
@@ -69,6 +87,16 @@ flowchart LR
     "Deve dar erro" é fraco. "Deve exibir a mensagem *Credenciais inválidas* e
     **não** redirecionar" é verificável.
 
+!!! note "Boas práticas ao escrever um caso de teste"
+    - **Um objetivo por caso.** Se o título tem "e", provavelmente são dois casos.
+    - **Passos reproduzíveis.** Qualquer pessoa deve chegar ao mesmo resultado.
+    - **Dados explícitos.** Diga o valor exato (`senha = "1234errada"`), não
+      "uma senha qualquer".
+    - **Pré-condição clara.** O estado necessário antes de começar (usuário existe,
+      está logado…).
+    - **Resultado esperado observável e único.** Descreva o que se **vê**, não o que
+      se "sente".
+
 ## Rastreabilidade: ligando requisito ao teste
 
 A **matriz de rastreabilidade** garante que **todo requisito** tem ao menos um
@@ -79,6 +107,24 @@ caso de teste — e que nenhum teste testa algo que ninguém pediu.
 | RF-01 Login | CT-010, CT-011, CT-012 |
 | RF-02 Recuperar senha | CT-020 |
 | RF-03 Cadastro | CT-030, CT-031 |
+
+A matriz é lida em **duas direções**, e cada uma revela um problema diferente:
+
+- **Requisito → casos:** um requisito **sem** nenhum caso é uma **lacuna de teste**
+  (estamos entregando algo que ninguém verifica).
+- **Caso → requisito:** um caso que **não aponta** para nenhum requisito é um teste
+  **órfão** (testamos algo que ninguém pediu — pode ser esforço desperdiçado ou um
+  requisito não documentado).
+
+!!! example "Montando uma matriz pequena"
+    Para RF-01 (login), RF-02 (logout) e RF-03 (trocar senha), o mínimo é ao menos
+    **um caso por requisito** — de preferência um caminho feliz e um de erro:
+
+    | Requisito | Casos de teste |
+    | :--- | :--- |
+    | RF-01 Login | CT-01 (sucesso), CT-02 (senha errada) |
+    | RF-02 Logout | CT-03 (encerra sessão) |
+    | RF-03 Trocar senha | CT-04 (troca válida), CT-05 (senha atual errada) |
 
 ## Do caso de teste ao código
 
@@ -110,6 +156,26 @@ void loginComSenhaIncorretaDeveSerNegado() {
     Dados os requisitos RF-01 (login), RF-02 (logout) e RF-03 (trocar senha),
     monte uma pequena matriz de rastreabilidade com pelo menos um caso por
     requisito.
+
+## Referências
+
+**Leitura base**
+
+- PRESSMAN, R. S.; MAXIM, B. R. *Engenharia de Software*. 8. ed. AMGH, 2016 —
+  cap. sobre planejamento de testes.
+- SOMMERVILLE, Ian. *Engenharia de Software*. 10. ed. Pearson, 2019 — cap. 8.
+
+**Normas**
+
+- IEEE 829 — *Standard for Software Test Documentation* (estrutura do plano e do
+  caso de teste).
+- ISO/IEC/IEEE 29119 — série sobre processos e documentação de teste (sucessora
+  moderna da IEEE 829).
+
+**Ferramentas de gestão de testes**
+
+- TestLink, Xray (Jira), Azure Test Plans — organizam casos, execuções e
+  rastreabilidade.
 
 !!! tip "Próxima Parada 🚀"
     Documente seus testes na [**Lista 09 — Plano de Testes**](../listas/09-lista.md).
